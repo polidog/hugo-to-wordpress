@@ -5,21 +5,18 @@ import (
 	"time"
 )
 
-func parseDate(dateStr string) (time.Time, error) {
-	var dateFormats = []string{
-		"2006-01-02T15:04:05Z07:00",
-		"2006-01-02T15:04:05",
-		"2006-01-02",
-	}
+var dateFormats = []string{
+	"2006-01-02T15:04:05",
+	"2006-01-02",
+	"2006-01-02T15:04:05Z07:00",
+}
 
-	var parsedDate time.Time
-	var err error
+func parseDate(dateStr string) (time.Time, error) {
 	for _, format := range dateFormats {
-		parsedDate, err = time.Parse(format, dateStr)
+		t, err := time.Parse(format, dateStr)
 		if err == nil {
-			return parsedDate, nil
+			return t, nil
 		}
 	}
-
-	return time.Time{}, errors.New("failed to parse date")
+	return time.Time{}, errors.New("could not parse date with any known format")
 }
