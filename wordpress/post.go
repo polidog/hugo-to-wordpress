@@ -9,16 +9,24 @@ import (
 	"strings"
 	"time"
 
+	"github.com/cheggaaa/pb/v3"
 	"github.com/polidog/hugo-to-wordpress/hugo"
 )
 
 func (c *Client) MigratePosts(posts []*hugo.Post) error {
+	totalPosts := len(posts)
+	progress := pb.StartNew(totalPosts)
+
 	for _, post := range posts {
 		fromHugo := *post
 		if err := c.createPost(&fromHugo); err != nil {
 			return err
 		}
+		progress.Increment()
 	}
+
+	progress.Finish()
+
 	return nil
 }
 
