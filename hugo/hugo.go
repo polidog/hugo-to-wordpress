@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	"gopkg.in/yaml.v2"
 )
@@ -18,6 +19,7 @@ type Post struct {
 	Tags       []string `yaml:"tags"`
 	Eyecatch   string   `yaml:"eyecatch"`
 	Content    string
+	ParsedDate time.Time
 }
 
 var (
@@ -70,6 +72,15 @@ func parsePost(path string) (*Post, error) {
 	}
 
 	post.Content = postContent
+
+	dateStr := post.Date
+	if dateStr != "" {
+		parsedDate, err := parseDate(dateStr)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse date: %v", err)
+		}
+		post.ParsedDate = parsedDate
+	}
 
 	return &post, nil
 }
