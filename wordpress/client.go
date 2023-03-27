@@ -8,16 +8,18 @@ import (
 )
 
 type Client struct {
-	URL      string
-	Username string
-	Password string
+	URL               string
+	Username          string
+	Password          string
+	concurrentWorkers int
 }
 
-func NewClient(url, username, password string) *Client {
+func NewClient(url, username, password string, concurrentWorkers int) *Client {
 	return &Client{
-		URL:      url,
-		Username: username,
-		Password: password,
+		URL:               url,
+		Username:          username,
+		Password:          password,
+		concurrentWorkers: concurrentWorkers,
 	}
 }
 

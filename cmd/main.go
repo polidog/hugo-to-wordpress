@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// Migrate posts to WordPress
-	wpClient := wordpress.NewClient(cfg.WordPress.URL, cfg.WordPress.Username, cfg.WordPress.Password)
+	wpClient := wordpress.NewClient(cfg.WordPress.URL, cfg.WordPress.Username, cfg.WordPress.Password, cfg.ConcurrentWorkers)
 	if err := wpClient.MigratePosts(posts); err != nil {
 		log.Fatalf("Failed to migrate posts: %v", err)
 	}

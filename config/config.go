@@ -7,8 +7,9 @@ import (
 )
 
 type Config struct {
-	WordPress WordPressConfig `yaml:"wordpress"`
-	Hugo      HugoConfig      `yaml:"hugo"`
+	WordPress         WordPressConfig `yaml:"wordpress"`
+	Hugo              HugoConfig      `yaml:"hugo"`
+	ConcurrentWorkers int             `yaml:"concurrent_workers"`
 }
 
 type WordPressConfig struct {

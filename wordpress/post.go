@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/cheggaaa/pb/v3"
@@ -17,13 +18,29 @@ func (c *Client) MigratePosts(posts []*hugo.Post) error {
 	totalPosts := len(posts)
 	progress := pb.StartNew(totalPosts)
 
-	for _, post := range posts {
-		fromHugo := *post
-		if err := c.createPost(&fromHugo); err != nil {
-			return err
-		}
-		progress.Increment()
+	var wg sync.WaitGroup
+	postCh := make(chan *hugo.Post)
+
+	for i := 0; i < c.concurrentWorkers; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for post := range postCh {
+				fromHugo := *post
+				if err := c.createPost(&fromHugo); err != nil {
+					fmt.Printf("Failed to migrate post %s: %v\n", post.Title, err)
+				}
+				progress.Increment()
+			}
+		}()
 	}
+
+	for _, post := range posts {
+		postCh <- post
+	}
+
+	close(postCh)
+	wg.Wait()
 
 	progress.Finish()
 

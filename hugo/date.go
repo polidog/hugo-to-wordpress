@@ -5,18 +5,21 @@ import (
 	"time"
 )
 
-var dateFormats = []string{
-	"2006-01-02T15:04:05",
-	"2006-01-02",
-	"2006-01-02T15:04:05Z07:00",
-}
+const (
+	layout1 = "2006-01-02T15:04:05"
+	layout2 = "2006-01-02"
+	layout3 = "2006-01-02T15:04:05Z07:00"
+)
 
-func parseDate(dateStr string) (time.Time, error) {
-	for _, format := range dateFormats {
-		t, err := time.Parse(format, dateStr)
+func Parse(dateStr string) (time.Time, error) {
+	layouts := []string{layout1, layout2, layout3}
+
+	for _, layout := range layouts {
+		parsedDate, err := time.Parse(layout, dateStr)
 		if err == nil {
-			return t, nil
+			return parsedDate, nil
 		}
 	}
-	return time.Time{}, errors.New("could not parse date with any known format")
+
+	return time.Time{}, errors.New("failed to parse date")
 }

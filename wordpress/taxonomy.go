@@ -21,6 +21,7 @@ type Tag struct {
 }
 
 func (c *Client) getOrCreateCategory(name string) (int, error) {
+
 	var categories []Category
 	slug := strings.ToLower(strings.ReplaceAll(name, " ", "-"))
 
@@ -74,6 +75,7 @@ func (c *Client) getOrCreateCategory(name string) (int, error) {
 }
 
 func (c *Client) getOrCreateTag(name string) (int, error) {
+
 	var tags []Tag
 	slug := strings.ToLower(strings.ReplaceAll(name, " ", "-"))
 
