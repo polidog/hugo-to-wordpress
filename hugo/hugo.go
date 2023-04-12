@@ -75,9 +75,9 @@ func parsePost(path string) (*Post, error) {
 
 	dateStr := post.Date
 	if dateStr != "" {
-		parsedDate, err := parseDate(dateStr)
+		parsedDate, err := Parse(dateStr)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parse date: %v", err)
+			return nil, fmt.Errorf("EEEE failed to parse date: %v", err)
 		}
 		post.ParsedDate = parsedDate
 	}

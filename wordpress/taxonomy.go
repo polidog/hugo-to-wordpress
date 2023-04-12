@@ -37,7 +37,12 @@ func (c *Client) getOrCreateCategory(name string) (int, error) {
 	}
 	defer res.Body.Close()
 
+	if res.StatusCode != http.StatusOK {
+		return 0, fmt.Errorf("failed to get category with status code %d", res.StatusCode)
+	}
+
 	err = json.NewDecoder(res.Body).Decode(&categories)
+
 	if err != nil {
 		return 0, err
 	}
@@ -45,7 +50,6 @@ func (c *Client) getOrCreateCategory(name string) (int, error) {
 	if len(categories) > 0 {
 		return categories[0].ID, nil
 	}
-
 	newCategory := Category{Name: name, Slug: slug}
 	categoryJson, _ := json.Marshal(newCategory)
 

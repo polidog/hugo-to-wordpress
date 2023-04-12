@@ -28,7 +28,7 @@ func (c *Client) MigratePosts(posts []*hugo.Post) error {
 			for post := range postCh {
 				fromHugo := *post
 				if err := c.createPost(&fromHugo); err != nil {
-					fmt.Printf("Failed to migrate post %s: %v\n", post.Title, err)
+					fmt.Printf("\nFailed to migrate post %s: %v\n", post.Title, err)
 				}
 				progress.Increment()
 			}
@@ -99,7 +99,7 @@ func (c *Client) createPost(post *hugo.Post) error {
 	}
 
 	// Prepare post data
-	date, err := time.Parse("2006-01-02T15:04:05", post.Date)
+	date, err := hugo.Parse(post.Date)
 	if err != nil {
 		return fmt.Errorf("failed to parse date: %v", err)
 	}

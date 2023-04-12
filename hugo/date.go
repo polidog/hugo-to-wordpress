@@ -21,5 +21,5 @@ func Parse(dateStr string) (time.Time, error) {
 		}
 	}
 
-	return time.Time{}, errors.New("failed to parse date")
+	return time.Time{}, errors.New("failed to parse date " + dateStr)
 }

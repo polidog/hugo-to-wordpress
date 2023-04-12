@@ -25,6 +25,12 @@ func TestParseDate(t *testing.T) {
 			err:      false,
 		},
 		{
+			name:     "ShortDate 2012-11-15",
+			input:    "2012-11-15",
+			expected: time.Date(2012, 11, 15, 0, 0, 0, 0, time.UTC),
+			err:      false,
+		},
+		{
 			name:     "RFC3339 with timezone",
 			input:    "2023-03-25T02:40:05+09:00",
 			expected: time.Date(2023, 3, 25, 2, 40, 5, 0, time.FixedZone("UTC+9", 9*60*60)),
@@ -39,7 +45,7 @@ func TestParseDate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			result, err := parseDate(tc.input)
+			result, err := Parse(tc.input)
 
 			if tc.err {
 				if err == nil {

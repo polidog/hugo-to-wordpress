@@ -9,9 +9,11 @@ import (
 func TestExtractImagesFromContent(t *testing.T) {
 	content := `![Alt text 1](/path/to/image1.jpg)
 This is some text.
-![Alt text 2](/path/to/image2.jpg)`
+![Alt text 2](/path/to/image2.jpg)
+{{< figure src="/path/to/image3.jpg" width="800px" >}}
+This is some more text.`
 
-	expectedImages := []string{"/path/to/image1.jpg", "/path/to/image2.jpg"}
+	expectedImages := []string{"/path/to/image1.jpg", "/path/to/image2.jpg", "/path/to/image3.jpg"}
 
 	images := hugo.ExtractImagesFromContent(content)
 
